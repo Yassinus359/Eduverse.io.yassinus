@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Eduverse - Plateforme PRO</title>
+<title>Eduverse Collège PRO</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
@@ -16,7 +16,7 @@ nav a:hover{color:#38bdf8}
 .hidden{display:none}
 .card{background:#020617;padding:20px;border-radius:15px;margin:15px 0}
 button{padding:10px 15px;background:#38bdf8;border:none;border-radius:10px;cursor:pointer}
-input{padding:10px;width:100%;margin:10px 0;border-radius:10px;border:none}
+input, select{padding:10px;width:100%;margin:10px 0;border-radius:10px;border:none}
 .teacher{background:#1e293b;padding:15px;border-radius:10px;margin:10px 0}
 </style>
 </head>
@@ -24,12 +24,13 @@ input{padding:10px;width:100%;margin:10px 0;border-radius:10px;border:none}
 <body>
 
 <header>
-<h1>Eduverse 🚀</h1>
+<h1>Eduverse 🎓</h1>
 <nav>
 <a onclick="show('home')">Accueil</a>
-<a onclick="show('explore')">Plus</a>
+<a onclick="show('courses')">Cours</a>
 <a onclick="show('exercises')">Exercices</a>
 <a onclick="show('teachers')">Profs</a>
+<a onclick="show('account')">Compte</a>
 </nav>
 </header>
 
@@ -37,34 +38,32 @@ input{padding:10px;width:100%;margin:10px 0;border-radius:10px;border:none}
 
 <!-- ACCUEIL -->
 <section id="home">
-<h2>Bienvenue 👋</h2>
-<p>Une plateforme où élèves et profs apprennent ensemble.</p>
+<h2>Bienvenue sur Eduverse Collège</h2>
+<p>Plateforme pour élèves et professeurs avec suivi et exercices.</p>
 </section>
 
-<!-- PLUS -->
-<section id="explore" class="hidden">
-<h2>🌍 Explorer</h2>
-<div class="card">
-<p>📚 Cours interactifs</p>
-<p>🎥 Vidéos éducatives</p>
-<p>💬 Discussion élèves & profs</p>
-</div>
+<!-- COURS -->
+<section id="courses" class="hidden">
+<h2>📚 Cours</h2>
+<div class="card">Math : Multiplications, divisions</div>
+<div class="card">Français : Grammaire, vocabulaire</div>
+<div class="card">Sciences : Planètes, énergie</div>
 </section>
 
 <!-- EXERCICES -->
 <section id="exercises" class="hidden">
-<h2>📝 Exercices</h2>
+<h2>📝 Exercices Collège</h2>
 
 <div class="card">
-<p>Math : 6 × 4 = ?</p>
-<input id="ex1" placeholder="Ta réponse">
-<button onclick="check('ex1',24)">Vérifier</button>
+<p>Math : 12 × 3 = ?</p>
+<input id="ex1">
+<button onclick="check('ex1',36)">Vérifier</button>
 </div>
 
 <div class="card">
-<p>Français : Synonyme de "rapide" ?</p>
-<input id="ex2" placeholder="Ta réponse">
-<button onclick="checkText('ex2','vite')">Vérifier</button>
+<p>Français : Donne un synonyme de "heureux"</p>
+<input id="ex2">
+<button onclick="checkText('ex2','content')">Vérifier</button>
 </div>
 
 <h3 id="score">Score : 0</h3>
@@ -72,21 +71,36 @@ input{padding:10px;width:100%;margin:10px 0;border-radius:10px;border:none}
 
 <!-- PROFS -->
 <section id="teachers" class="hidden">
-<h2>👨‍🏫 Nos Professeurs</h2>
+<h2>👨‍🏫 Professeurs</h2>
 
 <div class="teacher">
-<h3>Mr Ahmed (Math)</h3>
-<p>Spécialité : Algèbre</p>
-<button onclick="askTeacher('Ahmed')">Poser une question</button>
+<h3>Mr Karim (Math)</h3>
+<button onclick="askTeacher('Karim')">Question</button>
 </div>
 
 <div class="teacher">
-<h3>Mme Leila (Français)</h3>
-<p>Spécialité : Grammaire</p>
-<button onclick="askTeacher('Leila')">Poser une question</button>
+<h3>Mme Sara (Français)</h3>
+<button onclick="askTeacher('Sara')">Question</button>
 </div>
 
 <div id="chat"></div>
+</section>
+
+<!-- COMPTE -->
+<section id="account" class="hidden">
+<h2>🔐 Compte</h2>
+
+<div class="card">
+<select id="role">
+<option value="eleve">Élève</option>
+<option value="prof">Prof</option>
+</select>
+<input id="username" placeholder="Nom">
+<input id="password" type="password" placeholder="Mot de passe">
+<button onclick="register()">Créer compte</button>
+<button onclick="login()">Se connecter</button>
+<p id="msg"></p>
+</div>
 </section>
 
 </div>
@@ -101,15 +115,15 @@ document.getElementById(page).classList.remove('hidden');
 
 function check(id,correct){
 let val=document.getElementById(id).value;
-if(parseInt(val)===correct){alert('Correct ✅');score++;}
-else alert('Faux ❌');
+if(parseInt(val)===correct){alert('Correct');score++;}
+else alert('Faux');
 updateScore();
 }
 
 function checkText(id,correct){
 let val=document.getElementById(id).value.toLowerCase();
-if(val===correct){alert('Correct ✅');score++;}
-else alert('Faux ❌');
+if(val===correct){alert('Correct');score++;}
+else alert('Faux');
 updateScore();
 }
 
@@ -118,12 +132,34 @@ document.getElementById('score').innerText='Score : '+score;
 }
 
 function askTeacher(name){
-let q=prompt('Pose ta question au prof '+name);
+let q=prompt('Question pour '+name);
 if(q){
-let chat=document.getElementById('chat');
-chat.innerHTML+=`<div class="card">👨‍🎓 Question: ${q}<br>👨‍🏫 ${name}: Bonne question ! Continue comme ça 👍</div>`;
+document.getElementById('chat').innerHTML+=`<div class='card'>👨‍🎓 ${q}<br>👨‍🏫 ${name}: Bonne question 👍</div>`;
 }
 }
+
+function register(){
+let user=document.getElementById('username').value;
+let pass=document.getElementById('password').value;
+let role=document.getElementById('role').value;
+
+localStorage.setItem(user, JSON.stringify({pass:pass,role:role}));
+document.getElementById('msg').innerText='Compte créé ✅';
+}
+
+function login(){
+let user=document.getElementById('username').value;
+let pass=document.getElementById('password').value;
+
+let data=JSON.parse(localStorage.getItem(user));
+
+if(data && data.pass===pass){
+document.getElementById('msg').innerText='Connecté en tant que '+data.role+' ✅';
+}else{
+document.getElementById('msg').innerText='Erreur ❌';
+}
+}
+
 </script>
 
 </body>
