@@ -199,3 +199,205 @@ function logout(){
   document.getElementById('msg').innerText = "Déconnecté";
 }
 showProfile();
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eduverse Collège PRO</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+body{background:#0f172a;color:white}
+header{display:flex;justify-content:space-between;padding:20px;background:#020617}
+nav a{margin-left:15px;color:white;text-decoration:none;cursor:pointer}
+nav a:hover{color:#38bdf8}
+.container{padding:30px}
+.hidden{display:none}
+.card{background:#020617;padding:20px;border-radius:15px;margin:15px 0}
+button{padding:10px 15px;background:#38bdf8;border:none;border-radius:10px;cursor:pointer}
+input, select{padding:10px;width:100%;margin:10px 0;border-radius:10px;border:none}
+.teacher{background:#1e293b;padding:15px;border-radius:10px;margin:10px 0}
+.progress-bar{background:#1e293b;border-radius:10px;width:100%;margin:10px 0}
+.progress{background:#38bdf8;height:15px;border-radius:10px;width:0%}
+</style>
+</head>
+
+<body>
+<header>
+<h1>Eduverse 🎓</h1>
+<nav>
+<a onclick="show('home')">Accueil</a>
+<a onclick="show('courses')">Cours</a>
+<a onclick="show('exercises')">Exercices</a>
+<a onclick="show('teachers')">Profs</a>
+<a onclick="show('account')">Compte</a>
+<a onclick="show('dashboard')">Dashboard</a>
+</nav>
+</header>
+
+<div class="container">
+
+<!-- ACCUEIL -->
+<section id="home">
+<h2>Bienvenue sur Eduverse Collège</h2>
+<p>Plateforme pour élèves et professeurs avec suivi et exercices.</p>
+</section>
+
+<!-- COURS -->
+<section id="courses" class="hidden">
+<h2>📚 Cours</h2>
+<div class="card">Math : Multiplications, divisions</div>
+<div class="card">Français : Grammaire, vocabulaire</div>
+<div class="card">Sciences : Planètes, énergie</div>
+</section>
+
+<!-- EXERCICES -->
+<section id="exercises" class="hidden">
+<h2>📝 Exercices Collège</h2>
+<div class="card">
+<p>Math : 12 × 3 = ?</p>
+<input id="ex1">
+<button onclick="check('ex1',36,'math')">Vérifier</button>
+</div>
+<div class="card">
+<p>Français : Donne un synonyme de "heureux"</p>
+<input id="ex2">
+<button onclick="checkText('ex2','content','fr')">Vérifier</button>
+</div>
+</section>
+
+<!-- PROFS -->
+<section id="teachers" class="hidden">
+<h2>👨‍🏫 Professeurs</h2>
+<div class="teacher">
+<h3>Mr Karim (Math)</h3>
+<button onclick="askTeacher('Karim')">Question</button>
+</div>
+<div class="teacher">
+<h3>Mme Sara (Français)</h3>
+<button onclick="askTeacher('Sara')">Question</button>
+</div>
+<div id="chat"></div>
+</section>
+
+<!-- COMPTE -->
+<section id="account" class="hidden">
+<h2>🔐 Compte</h2>
+<div class="card">
+<select id="role">
+<option value="eleve">Élève</option>
+<option value="prof">Prof</option>
+</select>
+<input id="username" placeholder="Nom">
+<input id="password" type="password" placeholder="Mot de passe">
+<button onclick="register()">Créer compte</button>
+<button onclick="login()">Se connecter</button>
+<p id="msg"></p>
+</div>
+</section>
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="hidden">
+<h2>📊 Dashboard</h2>
+<div id="profile"></div>
+<div class="card">
+<h3>Progression Math</h3>
+<div class="progress-bar"><div id="math-progress" class="progress"></div></div>
+</div>
+<div class="card">
+<h3>Progression Français</h3>
+<div class="progress-bar"><div id="fr-progress" class="progress"></div></div>
+</div>
+</section>
+
+</div>
+
+<script>
+let progress = {math:0, fr:0};
+
+function show(page){
+document.querySelectorAll('section').forEach(s=>s.classList.add('hidden'));
+document.getElementById(page).classList.remove('hidden');
+if(page==='dashboard'){showDashboard();}
+}
+
+function check(id,correct,subject){
+let val=document.getElementById(id).value;
+if(parseInt(val)===correct){
+alert('Correct');
+progress[subject]+=10;
+}else alert('Faux');
+updateProgressBar(subject);
+}
+
+function checkText(id,correct,subject){
+let val=document.getElementById(id).value.toLowerCase();
+if(val===correct){
+alert('Correct');
+progress[subject]+=10;
+}else alert('Faux');
+updateProgressBar(subject);
+}
+
+function updateProgressBar(subject){
+document.getElementById(subject+'-progress').style.width=progress[subject]+'%';
+localStorage.setItem('progress',JSON.stringify(progress));
+}
+
+function askTeacher(name){
+let q=prompt('Question pour '+name);
+if(q){
+document.getElementById('chat').innerHTML+=`<div class='card'>👨‍🎓 ${q}<br>👨‍🏫 ${name}: Bonne question 👍</div>`;
+}
+}
+
+function register(){
+let user=document.getElementById('username').value;
+let pass=document.getElementById('password').value;
+let role=document.getElementById('role').value;
+localStorage.setItem(user, JSON.stringify({pass:pass,role:role,progress:{math:0,fr:0}}));
+document.getElementById('msg').innerText='Compte créé ✅';
+}
+
+function login(){
+let user=document.getElementById('username').value;
+let pass=document.getElementById('password').value;
+let data=JSON.parse(localStorage.getItem(user));
+if(data && data.pass===pass){
+localStorage.setItem('currentUser',user);
+document.getElementById('msg').innerText='Connecté : '+user+' ('+data.role+') ✅';
+progress=data.progress;
+showDashboard();
+}else{
+document.getElementById('msg').innerText='Erreur ❌';
+}
+}
+
+function logout(){
+localStorage.removeItem('currentUser');
+document.getElementById('msg').innerText='Déconnecté';
+}
+
+function showDashboard(){
+let user=localStorage.getItem('currentUser');
+if(user){
+let data=JSON.parse(localStorage.getItem(user));
+document.getElementById('profile').innerHTML=`<h3>👤 ${user}</h3><p>Rôle : ${data.role}</p><button onclick='logout()'>Se déconnecter</button>`;
+updateProgressBar('math');
+updateProgressBar('fr');
+}
+}
+
+// Charger session et progression si existante
+let user=localStorage.getItem('currentUser');
+if(user){
+let data=JSON.parse(localStorage.getItem(user));
+progress=data.progress;
+showDashboard();
+}
+</script>
+
+</body>
+</html>
