@@ -164,4 +164,38 @@ document.getElementById('msg').innerText='Erreur ❌';
 
 </body>
 </html>
+function login(){
+  let user = document.getElementById('username').value;
+  let pass = document.getElementById('password').value;
 
+  let data = JSON.parse(localStorage.getItem(user));
+
+  if(data && data.pass === pass){
+    localStorage.setItem("currentUser", user);
+
+    document.getElementById('msg').innerText =
+      "Connecté : " + user + " (" + data.role + ") ✅";
+
+    showProfile();
+  } else {
+    document.getElementById('msg').innerText = "Erreur ❌";
+  }
+}
+function showProfile(){
+  let user = localStorage.getItem("currentUser");
+
+  if(user){
+    let data = JSON.parse(localStorage.getItem(user));
+
+    document.getElementById('msg').innerHTML = `
+      👤 ${user}<br>
+      🎓 Rôle : ${data.role}<br>
+      <button onclick="logout()">Se déconnecter</button>
+    `;
+  }
+}
+function logout(){
+  localStorage.removeItem("currentUser");
+  document.getElementById('msg').innerText = "Déconnecté";
+}
+showProfile();
