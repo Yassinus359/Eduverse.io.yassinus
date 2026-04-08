@@ -1,143 +1,131 @@
-<!-- ========================= -->
-<!-- INDEX.HTML (WITH QUIZ + EXERCISES) -->
-<!-- ========================= -->
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Eduverse - Plateforme Éducative</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-    body { background: #0f172a; color: white; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eduverse - Plateforme PRO</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-    header { display: flex; justify-content: space-between; padding: 20px 40px; background: #020617; }
-    header h1 { color: #38bdf8; }
-
-    nav a { color: white; margin-left: 20px; text-decoration: none; }
-    nav a:hover { color: #38bdf8; }
-
-    .hero { text-align: center; padding: 80px 20px; }
-
-    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: 20px; padding: 40px; }
-
-    .card { background: #020617; padding: 20px; border-radius: 15px; }
-
-    .quiz { padding: 40px; }
-
-    .question { margin-bottom: 20px; }
-
-    button {
-      padding: 10px 20px; margin-top: 10px;
-      background: #38bdf8; border: none; border-radius: 10px;
-      cursor: pointer;
-    }
-
-    footer { text-align: center; padding: 20px; background: #020617; }
-  </style>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+body{background:#0f172a;color:white}
+header{display:flex;justify-content:space-between;padding:20px;background:#020617}
+nav a{margin-left:15px;color:white;text-decoration:none;cursor:pointer}
+nav a:hover{color:#38bdf8}
+.container{padding:30px}
+.hidden{display:none}
+.card{background:#020617;padding:20px;border-radius:15px;margin:15px 0}
+button{padding:10px 15px;background:#38bdf8;border:none;border-radius:10px;cursor:pointer}
+input{padding:10px;width:100%;margin:10px 0;border-radius:10px;border:none}
+.teacher{background:#1e293b;padding:15px;border-radius:10px;margin:10px 0}
+</style>
 </head>
+
 <body>
 
 <header>
-  <h1>Eduverse</h1>
-  <nav>
-    <a href="#">Accueil</a>
-    <a href="#quiz">Quiz</a>
-  </nav>
+<h1>Eduverse 🚀</h1>
+<nav>
+<a onclick="show('home')">Accueil</a>
+<a onclick="show('explore')">Plus</a>
+<a onclick="show('exercises')">Exercices</a>
+<a onclick="show('teachers')">Profs</a>
+</nav>
 </header>
 
-<section class="hero">
-  <h2>Bienvenue sur Eduverse 🚀</h2>
-  <p>Teste tes connaissances avec des quiz interactifs !</p>
+<div class="container">
+
+<!-- ACCUEIL -->
+<section id="home">
+<h2>Bienvenue 👋</h2>
+<p>Une plateforme où élèves et profs apprennent ensemble.</p>
 </section>
 
-<section class="features">
-  <div class="card">
-    <h3>📚 Exercice 1</h3>
-    <p>Combien font 5 + 3 ?</p>
-    <button onclick="checkAnswer(8)">Voir réponse</button>
-  </div>
-
-  <div class="card">
-    <h3>📚 Exercice 2</h3>
-    <p>Quelle est la capitale de la France ?</p>
-    <button onclick="alert('Paris')">Voir réponse</button>
-  </div>
+<!-- PLUS -->
+<section id="explore" class="hidden">
+<h2>🌍 Explorer</h2>
+<div class="card">
+<p>📚 Cours interactifs</p>
+<p>🎥 Vidéos éducatives</p>
+<p>💬 Discussion élèves & profs</p>
+</div>
 </section>
 
-<section class="quiz" id="quiz">
-  <h2>📝 Quiz</h2>
+<!-- EXERCICES -->
+<section id="exercises" class="hidden">
+<h2>📝 Exercices</h2>
 
-  <div class="question">
-    <p>1. Combien font 2 × 3 ?</p>
-    <button onclick="answerQuiz(this, true)">6</button>
-    <button onclick="answerQuiz(this, false)">5</button>
-  </div>
+<div class="card">
+<p>Math : 6 × 4 = ?</p>
+<input id="ex1" placeholder="Ta réponse">
+<button onclick="check('ex1',24)">Vérifier</button>
+</div>
 
-  <div class="question">
-    <p>2. Le soleil est une ?</p>
-    <button onclick="answerQuiz(this, true)">Étoile</button>
-    <button onclick="answerQuiz(this, false)">Planète</button>
-  </div>
+<div class="card">
+<p>Français : Synonyme de "rapide" ?</p>
+<input id="ex2" placeholder="Ta réponse">
+<button onclick="checkText('ex2','vite')">Vérifier</button>
+</div>
 
-  <p id="result"></p>
+<h3 id="score">Score : 0</h3>
 </section>
 
-<footer>
-  <p>© 2026 Eduverse</p>
-</footer>
+<!-- PROFS -->
+<section id="teachers" class="hidden">
+<h2>👨‍🏫 Nos Professeurs</h2>
+
+<div class="teacher">
+<h3>Mr Ahmed (Math)</h3>
+<p>Spécialité : Algèbre</p>
+<button onclick="askTeacher('Ahmed')">Poser une question</button>
+</div>
+
+<div class="teacher">
+<h3>Mme Leila (Français)</h3>
+<p>Spécialité : Grammaire</p>
+<button onclick="askTeacher('Leila')">Poser une question</button>
+</div>
+
+<div id="chat"></div>
+</section>
+
+</div>
 
 <script>
-let score = 0;
+let score=0;
 
-function checkAnswer(correct) {
-  let user = prompt("Ta réponse ?");
-  if (parseInt(user) === correct) {
-    alert("Bonne réponse !");
-  } else {
-    alert("Faux ! La bonne réponse est " + correct);
-  }
+function show(page){
+document.querySelectorAll('section').forEach(s=>s.classList.add('hidden'));
+document.getElementById(page).classList.remove('hidden');
 }
 
-function answerQuiz(btn, isCorrect) {
-  if (isCorrect) {
-    score++;
-    btn.style.background = "green";
-  } else {
-    btn.style.background = "red";
-  }
+function check(id,correct){
+let val=document.getElementById(id).value;
+if(parseInt(val)===correct){alert('Correct ✅');score++;}
+else alert('Faux ❌');
+updateScore();
+}
 
-  document.getElementById("result").innerText = "Score: " + score;
+function checkText(id,correct){
+let val=document.getElementById(id).value.toLowerCase();
+if(val===correct){alert('Correct ✅');score++;}
+else alert('Faux ❌');
+updateScore();
+}
+
+function updateScore(){
+document.getElementById('score').innerText='Score : '+score;
+}
+
+function askTeacher(name){
+let q=prompt('Pose ta question au prof '+name);
+if(q){
+let chat=document.getElementById('chat');
+chat.innerHTML+=`<div class="card">👨‍🎓 Question: ${q}<br>👨‍🏫 ${name}: Bonne question ! Continue comme ça 👍</div>`;
+}
 }
 </script>
 
 </body>
 </html>
-
-
-<!-- ========================= -->
-<!-- README.md -->
-<!-- ========================= -->
-
-# 🚀 Eduverse
-
-Plateforme éducative avec exercices et quiz interactifs.
-
-## ✨ Fonctionnalités
-- 📚 Exercices simples
-- 📝 Quiz interactifs avec score
-- 💻 Interface moderne
-
-## 🛠️ Technologies
-- HTML
-- CSS
-- JavaScript
-
-## 👨‍💻 Auteur
-Yassine
-
----
-
-🔥 Projet en évolution !
-
