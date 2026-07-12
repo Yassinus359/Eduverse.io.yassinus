@@ -401,3 +401,74 @@ showDashboard();
 
 </body>
 </html>
+:root{
+  --bleu: #2563EB;
+  --bleu-clair: #DBEAFE;
+  --vert: #22C55E;
+  --jaune: #FACC15;
+  --blanc: #FFFFFF;
+  --gris: #F5F7FA;
+  --texte: #1F2937;
+}
+
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:var(--gris);
+    color:var(--texte);
+}
+
+header{
+    background:linear-gradient(90deg,#2563EB,#22C55E);
+    color:white;
+    padding:20px;
+    text-align:center;
+}
+
+nav{
+    background:white;
+    padding:15px;
+    text-align:center;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+nav a{
+    color:#2563EB;
+    text-decoration:none;
+    margin:0 15px;
+    font-weight:bold;
+}
+
+nav a:hover{
+    color:#22C55E;
+}
+
+button{
+    background:#2563EB;
+    color:white;
+    border:none;
+    padding:12px 24px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#22C55E;
+    transform:scale(1.05);
+}
+
+.card{
+    background:white;
+    margin:20px;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.1);
+}
+
+footer{
+    background:#2563EB;
+    color:white;
+    text-align:center;
+    padding:15px;
+}
